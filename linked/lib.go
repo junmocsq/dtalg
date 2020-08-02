@@ -3,6 +3,7 @@ package linked
 import "errors"
 
 var ERROR_VALUE_TYPE error = errors.New("error type")
+
 func Compare(a, b interface{}) (int, error) {
 	// 大于为1 小于为-1 相等为0
 
