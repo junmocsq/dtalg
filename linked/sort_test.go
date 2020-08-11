@@ -42,7 +42,19 @@ func TestSort(t *testing.T) {
 	if !checkSort(a) {
 		t.Error("shellSort is failed")
 	}
+	b := []int{55, 94, 87, 1, 4, 32, 11, 77, 39, 42, 64, 53, 70, 12, 9}
+	merge := &MergeSort{}
+	merge.Sort(b)
+	if !checkSort(b) {
+		t.Error("MergeSort is failed")
+	}
 
+	c := []int{55, 94, 87, 1, 4, 32, 11, 77, 39, 42, 64, 53, 70, 12, 9}
+	quick := &QuickSort{}
+	quick.Sort(c)
+	if !checkSort(c) {
+		t.Error("MergeSort is failed")
+	}
 }
 
 func checkSort(arr []int) bool {

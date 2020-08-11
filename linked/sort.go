@@ -6,6 +6,7 @@ type Sorter interface {
 
 type BubbleSort struct {
 }
+
 // 冒泡排序
 // 对比相邻两个元素交换数据，稳定排序
 func (b *BubbleSort) Sort(arr []int) {
@@ -21,6 +22,7 @@ func (b *BubbleSort) Sort(arr []int) {
 
 type InsertionSort struct {
 }
+
 // 插入排序 性能优于冒泡排序
 // 稳定算法，不会改变相等元素的相对顺序
 func (i *InsertionSort) Sort(arr []int) {
@@ -86,7 +88,6 @@ func (s *ShellSort) Sort(arr []int) {
 		key = key / 2
 	}
 
-
 	/********************************************************
 	当key为1时，就是插入排序
 		for i := 1; i < n; i++ {
@@ -99,5 +100,92 @@ func (s *ShellSort) Sort(arr []int) {
 		fmt.Println(1,arr)
 	*******************************************************/
 
+}
 
+// 归并排序
+type MergeSort struct {
+}
+
+func (m *MergeSort) Sort(arr []int) {
+	res := m.mergeSort(arr, 0, len(arr)-1)
+	for k, v := range res {
+		arr[k] = v
+	}
+}
+
+func (m *MergeSort) mergeSort(arr []int, start, end int) []int {
+	if start == end {
+		return arr[start : start+1]
+	}
+	mid := (start + end) / 2
+	return m.sortMerge(m.mergeSort(arr, start, mid), m.mergeSort(arr, mid+1, end))
+}
+
+// 合并两个有序数组
+func (m *MergeSort) sortMerge(arr1, arr2 []int) []int {
+	l1 := len(arr1)
+	l2 := len(arr2)
+	resArr := make([]int, l1+l2)
+	index := 0
+	for i, j := 0, 0; i < l1 || j < l2; {
+		if arr1[i] < arr2[j] {
+			resArr[index] = arr1[i]
+			i++
+		} else {
+			resArr[index] = arr2[j]
+			j++
+		}
+		index++
+		if i == l1 {
+			for j < l2 {
+				resArr[index] = arr2[j]
+				index++
+				j++
+			}
+			break
+		}
+		if j == l2 {
+			for i < l1 {
+				resArr[index] = arr1[i]
+				index++
+				i++
+			}
+			break
+		}
+	}
+	return resArr
+}
+
+// 快速排序  非稳定算法
+type QuickSort struct {
+}
+
+func (q *QuickSort) Sort(arr []int) {
+	q.quickSort(arr, 0, len(arr)-1)
+}
+func (q *QuickSort) quickSort(arr []int, start, end int) {
+	if start >= end {
+		return
+	}
+	pivot := q.partition(arr, start, end)
+	q.quickSort(arr, start, pivot-1)
+	q.quickSort(arr, pivot+1, end)
+
+}
+
+// 寻找终点
+func (q *QuickSort) partition(arr []int, start, end int) int {
+
+	pivot := arr[end]
+	i := start
+	for j := start; j < end; j++ {
+
+		if arr[j] < pivot {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+
+		}
+	}
+	arr[i], arr[end] = arr[end], arr[i]
+	return i
 }

@@ -31,12 +31,12 @@ func TestNewLinkedList(t *testing.T) {
 	l.Print()
 	l.Reverse()
 	l.Print()
-	if l.CheckRing()  {
+	if l.CheckRing() {
 		t.Log("l.CheckRing() is failed")
 	}
 	l.Find(6).next = l.next.next
 
-	if !l.CheckRing()  {
+	if !l.CheckRing() {
 		t.Log("l.CheckRing() is failed")
 	}
 

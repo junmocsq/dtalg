@@ -50,4 +50,3 @@ func (s *arrayStack) Pop() interface{} {
 	s.top--
 	return ele
 }
-
