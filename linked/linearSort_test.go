@@ -17,4 +17,7 @@ func TestLinear(t *testing.T) {
 	t.Log(a)
 	counting.Sort(a)
 	t.Log(a)
+
+	b:= []byte("123hghgFFGash2hGGsd")
+	(&NumberCharacterCategory{}).Sort(b)
 }
