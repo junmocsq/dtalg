@@ -1,4 +1,4 @@
-package dtc
+package p2
 
 import "testing"
 

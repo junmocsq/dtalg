@@ -192,7 +192,7 @@ func (q *QuickSort) partition(arr []int, start, end int) int {
 
 func (q *QuickSort) partitionMid(arr []int, start, end int) int {
 	mid := (start + end) / 2
-	for ; start <= mid && end >= mid; {
+	for start <= mid && end >= mid {
 		flag := false
 		if arr[start] <= arr[mid] {
 			start++
