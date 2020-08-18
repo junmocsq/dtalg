@@ -12,6 +12,11 @@ func TestSplayTree(t *testing.T) {
 	}
 	printSplayTree(tree)
 	tree.Find(1)
+	tree.Find(2)
+	tree.Find(3)
+	tree.Find(4)
+	//tree.Delete(13)
+	//tree.Delete(2)
 	printSplayTree(tree)
 }
 

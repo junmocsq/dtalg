@@ -94,11 +94,21 @@ func (s *splayTree) Insert(ele int) {
 		}
 	}
 }
-
 func (s *splayTree) Find(ele int) *splayNode {
+	return s.find(ele, (*splayNode)(s))
+}
+
+func (s *splayTree) find(ele int, parent *splayNode) *splayNode {
 	nodeArr := make([]*splayNode, 1)
-	nodeArr[0] = (*splayNode)(s)
-	root := s.left
+	nodeArr[0] = parent
+
+	isLeft := true
+	root := parent.left
+
+	if parent.right != nil && parent.ele < ele {
+		root = parent.right
+		isLeft = false
+	}
 	for root != nil {
 		nodeArr = append(nodeArr, root)
 		if root.ele > ele {
@@ -147,10 +157,46 @@ func (s *splayTree) Find(ele int) *splayNode {
 			} else {
 				s.leftSingleRotation(nodeArr[1])
 			}
-			s.left = nodeArr[2]
+			nodeArr[1] = nodeArr[2]
 		}
 	}
-	return s.left
+	if isLeft {
+		nodeArr[0].left = nodeArr[1]
+	} else {
+		nodeArr[0].right = nodeArr[1]
+	}
+	return nodeArr[1]
+}
+
+// 伸展树删除
+// 采用搜索转移ele节点到根节点，获取左子树的最大节点，访问它，转移到头部，直接把右子树挂在上面即可
+func (s *splayTree) Delete(ele int) {
+	root := s.find(ele, (*splayNode)(s))
+
+	if root == nil {
+		return
+	}
+
+	if root.left == nil {
+		s.left = root.right
+		return
+	} else {
+		max := s.FindMax(root.left)
+
+		p := s.find(max.ele, root)
+		p.right = root.right
+		s.left = p
+	}
+
+}
+
+func (s *splayTree) FindMax(position *splayNode) *splayNode {
+	for position != nil && position.right != nil {
+		fmt.Println(position)
+		position = position.right
+	}
+	fmt.Println(position)
+	return position
 }
 
 func (s *splayTree) inOrderPrint(root *splayNode) {
