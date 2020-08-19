@@ -1,4 +1,4 @@
-package dtc
+package p2
 
 // N^3
 func maxSubsequenceSumV1(arr []int) (s, e, sum int) {

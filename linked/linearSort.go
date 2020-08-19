@@ -65,7 +65,7 @@ func (c *NumberCharacterCategory) Sort(arr []byte) {
 
 	for i := index; i < len(arr); i++ {
 		if arr[i] >= 'a' && arr[i] <= 'z' {
-			arr[index],arr[i] = arr[i],arr[index]
+			arr[index], arr[i] = arr[i], arr[index]
 			index++
 		}
 	}

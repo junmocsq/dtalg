@@ -1,4 +1,4 @@
-package dtc
+package p3
 
 type doubleLinkedNode struct {
 	ele      int

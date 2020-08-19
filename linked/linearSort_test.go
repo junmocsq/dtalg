@@ -18,6 +18,6 @@ func TestLinear(t *testing.T) {
 	counting.Sort(a)
 	t.Log(a)
 
-	b:= []byte("123hghgFFGash2hGGsd")
+	b := []byte("123hghgFFGash2hGGsd")
 	(&NumberCharacterCategory{}).Sort(b)
 }

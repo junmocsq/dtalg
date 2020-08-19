@@ -1,11 +1,11 @@
-package dtc
+package p3
 
 import (
 	"fmt"
 	"testing"
 )
 
-func TestCursor(t *testing.T)  {
+func TestCursor(t *testing.T) {
 	initCursor()
 	list := NewCursor()
 	fmt.Println(list)
