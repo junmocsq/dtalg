@@ -28,5 +28,5 @@ func TestBinarySearch(t *testing.T) {
 	tree.DeleteRecursion(150, tree.left, (*binarySearchNode)(tree))
 	tree.inOrderPrint(tree.left)
 	fmt.Println()
-	fmt.Println(tree.left.right)
+	tree.layerPrint(tree.left)
 }

@@ -250,3 +250,47 @@ func (s *binarySearchTree) postOrderPrint(root *binarySearchNode) {
 	s.postOrderPrint(root.right)
 	fmt.Printf("%d ", root.ele)
 }
+
+// 层次遍历
+func (s *binarySearchTree) layerPrint(root *binarySearchNode) {
+	if root == nil {
+		return
+	}
+	arr := make([]*binarySearchNode, 0)
+	arr = s.push(arr, root)
+	front := len(arr)
+	rear := 0
+	floor := 1
+	fmt.Println("level", front)
+	var node *binarySearchNode
+	for len(arr) != 0 {
+		arr, node = s.pop(arr)
+		front--
+		fmt.Println(floor, node.ele)
+		if node.left != nil {
+			arr = s.push(arr, node.left)
+		}
+		if node.right != nil {
+			arr = s.push(arr, node.right)
+		}
+		if front == rear {
+			front = len(arr)
+			rear = 0
+			floor++
+		}
+	}
+}
+
+func (s *binarySearchTree) push(arr []*binarySearchNode, node *binarySearchNode) []*binarySearchNode {
+	arr = append(arr, node)
+	return arr
+}
+
+func (s *binarySearchTree) pop(arr []*binarySearchNode) ([]*binarySearchNode, *binarySearchNode) {
+	if len(arr) == 0 {
+		return nil, nil
+	}
+	node := arr[0]
+	arr = arr[1:]
+	return arr, node
+}
