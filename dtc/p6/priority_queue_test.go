@@ -24,11 +24,11 @@ func TestBinaryHeap(t *testing.T) {
 	t.Log(h.eles)
 
 	h = NewBinaryMaxHeap(20)
-	for i:=30;i>10;i-- {
+	for i := 30; i > 10; i-- {
 		h.Insert(i)
 	}
 	t.Log(h.eles)
-	for i:=30;i>10;i-- {
+	for i := 30; i > 10; i-- {
 		fmt.Println(h.DeleteFirst())
 	}
 	t.Log(h.eles)
