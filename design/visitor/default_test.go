@@ -1,7 +1,8 @@
 package visitor
 
 import "testing"
-
+// 允许一个或者多个操作应用到一组对象上，解耦操作和对象本身。
+// 对于一组resourceFile对象，可以使用多个不同的操作visitor，如例子中的(extractor compressor A)
 func TestTool(t *testing.T) {
 	toolApplication()
 	/*
