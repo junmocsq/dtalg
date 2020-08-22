@@ -2,6 +2,7 @@ package p6
 
 import (
 	"errors"
+	"fmt"
 )
 
 // 优先队列
@@ -42,17 +43,9 @@ func (h *binaryHeap) Insert(ele int) error {
 	if h.IsFull() {
 		return errors.New("heap is full")
 	}
-	index := h.size
-	for index != 0 {
-		if h.compare(h.eles[h.parent(index)], ele) {
-			h.eles[index] = h.eles[h.parent(index)]
-			index = h.parent(index)
-		} else {
-			break
-		}
-	}
-	h.eles[index] = ele
 	h.size++
+	h.eles[h.size-1] = ele
+	h.percolateUp(h.size - 1)
 	return nil
 }
 
@@ -71,21 +64,8 @@ func (h *binaryHeap) DeleteFirst() (int, error) {
 	del := h.eles[0]
 	h.size--
 	lastEle := h.eles[h.size]
-	index := 0
-	for child := h.childLeft(index); child < h.size; child = h.childLeft(index) {
-		if child+1 != h.size && h.compare(h.eles[child], h.eles[child+1]) {
-			child++
-		}
-		// 下滤
-		if h.compare(lastEle, h.eles[child]) {
-			h.eles[index] = h.eles[child]
-			index = child
-		} else {
-			break
-		}
-
-	}
-	h.eles[index] = lastEle
+	h.eles[0] = lastEle
+	h.percolateDown(0)
 	return del, nil
 }
 
@@ -104,6 +84,52 @@ func (h *binaryHeap) IsFull() bool {
 	return h.size == h.capacity
 }
 
+// 减少指定节点的值 val为正值
+func (h *binaryHeap) DecreaseKey(index, val int) bool {
+	if index >= h.size || index < 0 {
+		return false
+	}
+	if val < 0 {
+		val = -val
+	}
+	h.eles[index] -= val
+	if h.compare(2, 1) {
+		h.percolateUp(index)
+	} else {
+		h.percolateDown(index)
+	}
+	return true
+}
+
+// 增加指定节点的值 val为正值
+func (h *binaryHeap) IncreaseKey(index, val int) bool {
+	if index >= h.size || index < 0 {
+		return false
+	}
+	if val < 0 {
+		val = -val
+	}
+	h.eles[index] += val
+	if h.compare(2, 1) {
+		h.percolateDown(index)
+	} else {
+		h.percolateUp(index)
+	}
+	return true
+}
+
+func (h *binaryHeap) Delete(index int) (int, error) {
+	if h.size == 0 {
+		return 0, errors.New("priority queue is empty!")
+	}
+	h.size--
+	delNode := h.eles[index]
+	h.eles[index] = h.eles[h.size]
+	h.percolateDown(index)
+	h.percolateUp(index)
+	return delNode, nil
+}
+
 // 构建堆
 func (h *binaryHeap) BuildHeap(arr []int) error {
 	length := len(arr)
@@ -116,14 +142,59 @@ func (h *binaryHeap) BuildHeap(arr []int) error {
 	}
 
 	for i := h.parent(h.size); i >= 0; i-- {
-		child := h.childLeft(i)
-		if child+1 <= h.size-1 && h.compare(h.eles[child], h.eles[child+1]) {
-			child++
-		}
-		if h.compare(h.eles[i], h.eles[child]) {
-			// 下滤
-			h.eles[i], h.eles[child] = h.eles[child], h.eles[i]
+		h.percolateDown(i)
+	}
+	return nil
+}
+
+func (h *binaryHeap) FindKMinOrMax(arr []int, k int) error {
+	h.BuildHeap(arr)
+	for i := 0; i < k; i++ {
+		if i == k-1 {
+			fmt.Println(h.DeleteFirst())
+		} else {
+			h.DeleteFirst()
 		}
 	}
 	return nil
+}
+
+// 上滤
+func (h *binaryHeap) percolateUp(index int) {
+	if index <= 0 {
+		return
+	}
+	for index != 0 {
+		parent := (index - 1) / 2
+		if h.compare(h.eles[parent], h.eles[index]) {
+			h.eles[parent], h.eles[index] = h.eles[index], h.eles[parent]
+			index = parent
+		} else {
+			break
+		}
+	}
+	return
+}
+
+// 下滤
+func (h *binaryHeap) percolateDown(index int) {
+	if index < 0 {
+		return
+	}
+	for {
+		child := index*2 + 1
+		if child+1 < h.size && h.compare(h.eles[child], h.eles[child+1]) {
+			child++
+		}
+		if child >= h.size {
+			break
+		}
+		if h.compare(h.eles[index], h.eles[child]) {
+			h.eles[index], h.eles[child] = h.eles[child], h.eles[index]
+			index = child
+		} else {
+			break
+		}
+	}
+	return
 }
