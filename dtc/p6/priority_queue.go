@@ -198,3 +198,20 @@ func (h *binaryHeap) percolateDown(index int) {
 	}
 	return
 }
+
+// 堆排序
+func (h *binaryHeap) HeapSort(arr []int) []int {
+	h.BuildHeap(arr)
+	for i := h.size - 1; i > 0; i-- {
+		del, err := h.DeleteFirst()
+		if err != nil {
+			panic("heap sort failed")
+		}
+		h.eles[i] = del
+	}
+	length := len(arr)
+	for i := length - 1; i >= 0; i-- {
+		arr[length-i-1] = h.eles[i]
+	}
+	return arr
+}

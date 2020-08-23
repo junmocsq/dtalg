@@ -40,7 +40,7 @@ func TestSort(t *testing.T) {
 	a := []int{55, 94, 87, 1, 4, 32, 11, 77, 39, 42, 64, 53, 70, 12, 9}
 	shell.Sort(a)
 	if !checkSort(a) {
-		t.Error("shellSort is failed")
+		t.Error("shellSort is failed", a)
 	}
 	b := []int{55, 94, 87, 1, 4, 32, 11, 77, 39, 42, 64, 53, 70, 12, 9}
 	merge := &MergeSort{}
@@ -55,6 +55,9 @@ func TestSort(t *testing.T) {
 	if !checkSort(c) {
 		t.Error("MergeSort is failed")
 	}
+	fmt.Println(c)
+	d := []int{55, 94, 87, 1, 4, 32, 11, 77, 39, 42, 64, 53, 70, 12, 9}
+	t.Log(QuickSelect(d, 8))
 }
 
 func checkSort(arr []int) bool {

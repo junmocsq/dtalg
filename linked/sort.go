@@ -1,5 +1,9 @@
 package linked
 
+import (
+	"fmt"
+)
+
 type Sorter interface {
 	Sort([]int)
 }
@@ -30,16 +34,11 @@ func (i *InsertionSort) Sort(arr []int) {
 	for i := 1; i < length; i++ {
 		temp := arr[i]
 		// 需要插入的位置
-		index := i
-		for j := i - 1; j >= 0; j-- {
-			if temp < arr[j] {
-				arr[j+1] = arr[j]
-				index = j
-			} else {
-				break
-			}
+		j := i
+		for ; j >= 1 && temp < arr[j-1]; j-- {
+			arr[j] = arr[j-1]
 		}
-		arr[index] = temp
+		arr[j] = temp
 	}
 }
 
@@ -76,29 +75,29 @@ func (s *ShellSort) Sort(arr []int) {
 		return
 	}
 
-	key := n / 2
-	for key > 0 {
+	for key := n / 2; key > 0; key = key / 2 {
 		for i := key; i < n; i++ {
+			tmp := arr[i]
 			j := i
-			for j >= key && arr[j] < arr[j-key] {
-				arr[j], arr[j-key] = arr[j-key], arr[j]
-				j = j - key
+			for ; j >= key && arr[j-key] > tmp; j = j - key {
+				arr[j] = arr[j-key]
 			}
+			arr[j] = tmp
 		}
-		key = key / 2
 	}
 
-	/********************************************************
+	/*******************************************************
 	当key为1时，就是插入排序
-		for i := 1; i < n; i++ {
-			j := i
-			for j >= 1 && arr[j] < arr[j-1] {
-				arr[j], arr[j-1] = arr[j-1], arr[j]
-				j = j - 1
-			}
+	for i := 1; i < n; i++ {
+		tmp := arr[i]
+		j := i
+		for ; j >= 1 && arr[j-1] > tmp; j-- {
+			arr[j] = arr[j-1]
 		}
-		fmt.Println(1,arr)
-	*******************************************************/
+		arr[j] = tmp
+	}
+	fmt.Println(1, arr)
+	/*******************************************************/
 
 }
 
@@ -188,4 +187,62 @@ func (q *QuickSort) partition(arr []int, start, end int) int {
 	}
 	arr[i], arr[end] = arr[end], arr[i]
 	return i
+}
+
+// 快速查找第k个数
+func QuickSelect(arr []int, k int) int {
+	length := len(arr)
+	if length < k {
+		return -1
+	}
+	start, end := 0, length-1
+	for {
+		res := quickSelect(arr, start, end)
+		fmt.Println("===", start, end, res)
+		if res == k-1 {
+			return arr[k-1]
+		} else if res < k-1 {
+			start = res
+		} else {
+			end = res
+		}
+		res = quickSelect(arr, res, end)
+	}
+
+}
+
+func quickSelect(arr []int, start, end int) int {
+	if start == end {
+		return start
+	}
+	mid3(arr, start, end)
+	pivot := arr[end]
+	i := start
+	for j := start; j < end; j++ {
+
+		if arr[j] < pivot {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+
+		}
+	}
+	arr[i], arr[end] = arr[end], arr[i]
+	return i
+}
+
+// 获取三个数的中间值，并换到end位置
+func mid3(arr []int, start, end int) {
+	if start+2 > end {
+		return
+	}
+	mid := (start + end) / 2
+	if arr[start] > arr[mid] {
+		arr[start], arr[mid] = arr[mid], arr[start]
+	}
+	if arr[start] > arr[end] {
+		arr[start], arr[end] = arr[end], arr[start]
+	}
+	if arr[mid] < arr[end] {
+		arr[mid], arr[end] = arr[end], arr[mid]
+	}
 }

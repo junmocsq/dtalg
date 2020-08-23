@@ -43,14 +43,14 @@ func TestBinaryHeap(t *testing.T) {
 	arr = append(arr, 11)
 	arr = append(arr, 13)
 	arr = append(arr, 2)
-	h.BuildHeap(arr)
-	fmt.Println(h.eles)
-	h.size = 0
-	for _, v := range arr {
-		h.Insert(v)
-	}
-	fmt.Println(h.eles)
-	h.IncreaseKey(0, 15)
-	fmt.Println(h.eles)
+
+	fmt.Println(h.HeapSort(arr))
+	//h.size = 0
+	//for _, v := range arr {
+	//	h.Insert(v)
+	//}
+	//fmt.Println(h.eles)
+	//h.IncreaseKey(0, 15)
+	//fmt.Println(h.eles)
 
 }
