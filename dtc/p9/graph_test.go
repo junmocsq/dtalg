@@ -20,4 +20,7 @@ func TestGraph(t *testing.T) {
 	g.addEdge("5", "7")
 	g.addEdge("7", "6")
 	fmt.Println(g.arr[0])
+
+	fmt.Println(g.InDegree())
+	t.Log(g.TopSort())
 }

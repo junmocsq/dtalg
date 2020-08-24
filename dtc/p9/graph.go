@@ -53,3 +53,66 @@ func (a *adjacencyList) addEdge(name string, name2 string) {
 		head.next = v
 	}
 }
+
+// 入度数组
+func (a *adjacencyList) InDegree() map[string]int {
+	inDegree := make(map[string]int)
+	for name, id := range a.nameMap {
+		if inDegree[name] == 0 {
+			inDegree[name] = 0
+		}
+		index := a.arr[id]
+
+		for index != nil {
+			inDegree[index.name]++
+			index = index.next
+		}
+	}
+	return inDegree
+}
+
+// 拓扑排序
+func (a *adjacencyList) TopSort() []string {
+	inDegree := a.InDegree()
+	nameArr := make([]string, 0)
+	queue := make([]string, 0)
+	for name, v := range inDegree {
+		if v == 0 {
+			queue = a.push(queue, name)
+			delete(inDegree, name)
+		}
+	}
+	count := 0
+	for len(queue) != 0 {
+		var name string
+		name, queue = a.pop(queue)
+		nameArr = append(nameArr, name)
+		count++
+		id := a.getNameId(name)
+		head := a.arr[id]
+		for head != nil {
+			if inDegree[head.name] == 1 {
+				queue = a.push(queue, head.name)
+				delete(inDegree, head.name)
+			} else {
+				inDegree[head.name]--
+			}
+			head = head.next
+		}
+	}
+	if count != len(a.nameMap) {
+		panic("Graph has a cycle")
+	}
+	return nameArr
+}
+func (a *adjacencyList) push(queue []string, name string) []string {
+	return append(queue, name)
+}
+func (a *adjacencyList) pop(queue []string) (string, []string) {
+	if len(queue) == 0 {
+		return "", nil
+	}
+	name := queue[0]
+	queue = queue[1:]
+	return name, queue
+}
