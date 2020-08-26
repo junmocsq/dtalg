@@ -14,4 +14,8 @@ func TestBFAndRK_Match(t *testing.T) {
 	r := NewRk()
 	i := r.Match(s, p)
 	t.Log(i)
+
+	bm := NewBM()
+	i = bm.Match(s, p)
+	t.Log(i)
 }
