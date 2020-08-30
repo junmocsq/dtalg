@@ -6,7 +6,8 @@ import (
 
 func TestNewBdfsNode(t *testing.T) {
 	b := NewBdfs()
-	b.Bfs("s")
+	b.CreateSccGraph(false)
+	b.Scc()
 	t.Log(b.nameNodeMap)
-	b.printPath("s", "w")
+	//b.printPath("s", "w")
 }

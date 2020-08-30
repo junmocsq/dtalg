@@ -33,7 +33,7 @@ func (t *trie) Insert(str string) {
 		root.isEnd = false
 		root = root.children[c-'a']
 	}
-	if isNew{
+	if isNew {
 		root.isEnd = true
 	}
 
@@ -52,22 +52,22 @@ func (t *trie) find(str string) {
 		}
 		root = root.children[c-'a']
 	}
-	if root.isEnd{
+	if root.isEnd {
 		logrus.Info("找到")
-	}else {
+	} else {
 		logrus.Info("前缀匹配")
-		t.findPrefix(str,root.children)
+		t.findPrefix(str, root.children)
 	}
 
 }
 
-func (t *trie) findPrefix(str string,children [26]*trieNode) {
-	for _,v := range children{
-		if v!=nil{
-			if v.isEnd{
-				fmt.Println(str+string(v.char))
-			}else {
-				t.findPrefix(str+string(v.char),v.children)
+func (t *trie) findPrefix(str string, children [26]*trieNode) {
+	for _, v := range children {
+		if v != nil {
+			if v.isEnd {
+				fmt.Println(str + string(v.char))
+			} else {
+				t.findPrefix(str+string(v.char), v.children)
 			}
 
 		}
