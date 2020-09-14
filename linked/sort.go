@@ -116,6 +116,11 @@ func (m *MergeSort) mergeSort(arr []int, start, end int) []int {
 	if start == end {
 		return arr[start : start+1]
 	}
+	if end-start < 5 {
+		temp := arr[start : end+1]
+		(&SelectionSort{}).Sort(arr[start : end+1])
+		return temp
+	}
 	mid := (start + end) / 2
 	return m.sortMerge(m.mergeSort(arr, start, mid), m.mergeSort(arr, mid+1, end))
 }
